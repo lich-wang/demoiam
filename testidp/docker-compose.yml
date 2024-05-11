@@ -1,0 +1,27 @@
+# To run it, do:
+#   $ docker-compose pull && docker-compose up -d
+#
+# To upgrade, do:
+#   $ docker-compose pull && docker-compose stop && docker-compose rm -f && docker-compose up -d
+#
+# To check the logs, do:
+#   $ docker-compose logs -f
+# Into the pod:
+#   $ docker exec -it openam bash 
+#
+version: '3'
+services:
+  keycloak:
+    image: keycloak/keycloak
+    ports:
+      - "20000:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command:
+      - start-dev
+    volumes:
+      - keycloak_data:/opt/jboss/keycloak/standalone/data
+
+volumes:
+  keycloak_data:

@@ -1,0 +1,42 @@
+# To run it, do:
+#   $ docker-compose pull && docker-compose up -d
+#
+# To upgrade, do:
+#   $ docker-compose pull && docker-compose stop && docker-compose rm -f && docker-compose up -d
+#
+# To check the logs, do:
+#   $ docker-compose logs -f
+# Into the pod:
+#   $ docker exec -it openam bash 
+#
+version: '3'
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 20001:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
+
